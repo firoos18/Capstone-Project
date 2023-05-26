@@ -26,13 +26,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.temantanam.model.MenuItem
+import com.example.temantanam.model.MenuItemData
 import com.example.temantanam.navigation.NavigationItem
 import com.example.temantanam.navigation.Screen
+import com.example.temantanam.ui.screen.analyzeenvironment.AnalyzeEnvironmentScreen
+import com.example.temantanam.ui.screen.authentication.login.LoginScreen
+import com.example.temantanam.ui.screen.authentication.register.RegisterScreen
+import com.example.temantanam.ui.screen.camera.CameraScreen
+import com.example.temantanam.ui.screen.collections.CollectionsScreen
+import com.example.temantanam.ui.screen.currentweather.CurrentWeatherScreen
+import com.example.temantanam.ui.screen.home.HomeScreen
+import com.example.temantanam.ui.screen.plantcycopedia.PlantcycopediaScreen
 import com.example.temantanam.ui.theme.TemanTanamTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -46,25 +57,50 @@ fun TemanTanamApp(
 
     Scaffold(
         topBar = {
-                 if (currentState != Screen.Home.route) {
+                 if (currentState != Screen.Plantcycopedia.route &&
+                    currentState != Screen.CurrentWeather.route &&
+                     currentState != Screen.Login.route &&
+                     currentState != Screen.Register.route &&
+                     currentState != Screen.AnalyzeEnvironment.route)
+                 {
                      TopBarApp()
                  }
         },
         bottomBar = {
-            if (currentState != Screen.Home.route) {
+            if (currentState != Screen.Plantcycopedia.route &&
+                currentState != Screen.CurrentWeather.route &&
+                currentState != Screen.Login.route &&
+                currentState != Screen.Register.route &&
+                currentState != Screen.AnalyzeEnvironment.route)
+            {
                 BottomAppBar(navController = navController)
             }
         }
     ) {
        NavHost(navController = navController, startDestination = "home") {
            composable(Screen.Home.route) {
-
+               HomeScreen(navController)
            }
            composable(Screen.Login.route) {
-
+               LoginScreen()
            }
            composable(Screen.Register.route) {
-
+               RegisterScreen()
+           }
+           composable(Screen.Camera.route) {
+               CameraScreen()
+           }
+           composable(Screen.Collections.route) {
+               CollectionsScreen()
+           }
+           composable(Screen.CurrentWeather.route) {
+               CurrentWeatherScreen()
+           }
+           composable(Screen.AnalyzeEnvironment.route) {
+               AnalyzeEnvironmentScreen()
+           }
+           composable(Screen.Plantcycopedia.route) {
+               PlantcycopediaScreen()
            }
        }
     }
@@ -138,13 +174,13 @@ fun BottomAppBar(
             NavigationItem(
                 title = "Camera",
                 icon = R.drawable.camera,
-                screen = Screen.Home,
+                screen = Screen.Camera,
                 contentDescription = "Camera Screen"
             ),
             NavigationItem(
                 title = "Collections",
                 icon = R.drawable.collections,
-                screen = Screen.Home,
+                screen = Screen.Collections,
                 contentDescription = "Collections Screen"
             )
         )
@@ -153,7 +189,15 @@ fun BottomAppBar(
             navigationItem.map { item ->
                 NavigationBarItem(
                     selected = currentRoute == item.screen.route,
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(item.screen.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            restoreState = true
+                            launchSingleTop = true
+                        }
+                    },
                     icon = {
                         Icon(
                             painter = painterResource(item.icon),

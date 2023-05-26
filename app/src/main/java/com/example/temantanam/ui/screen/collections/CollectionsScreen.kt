@@ -1,18 +1,18 @@
-package com.example.temantanam.ui.screen.home
+package com.example.temantanam.ui.screen.collections
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.temantanam.ui.theme.TemanTanamTheme
 
 @Composable
-fun Home() {
+fun CollectionsScreen() {
 
 }
 
 @Preview(showBackground = true)
 @Composable
-fun HomePreview() {
+fun CollectionsScreenPreview() {
     TemanTanamTheme {
-        Home()
+        CollectionsScreen()
     }
 }
