@@ -27,17 +27,22 @@ import androidx.compose.ui.unit.sp
 import com.example.temantanam.ui.theme.TemanTanamTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    navController : NavHostController
+) {
     var emailInput by remember{ mutableStateOf("") }
     var passwordInput by remember{ mutableStateOf("") }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 24.dp, start = 24.dp, end = 24.dp, bottom = 64.dp),
+            .padding(top = 24.dp, start = 24.dp, end = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -45,7 +50,7 @@ fun LoginScreen() {
             fontWeight = FontWeight.Bold,
             fontSize = 28.sp
         )
-        Spacer(modifier = Modifier.size(310.dp))
+        Spacer(modifier = Modifier.size(230.dp))
         Column(
             horizontalAlignment = Alignment.End
         ) {
@@ -89,7 +94,7 @@ fun LoginScreen() {
                 fontWeight = FontWeight.Light
             )
         }
-        Spacer(modifier = Modifier.size(110.dp))
+        Spacer(modifier = Modifier.size(190.dp))
         FilledTonalButton(
             onClick = {},
             shape = RoundedCornerShape(10.dp),
@@ -109,7 +114,14 @@ fun LoginScreen() {
             Text(
                 text = " Register",
                 fontSize = 12.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.clickable {
+                    navController.navigate("register") {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                    }
+                }
             )
         }
     }
@@ -117,8 +129,12 @@ fun LoginScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenPreview() {
+fun LoginScreenPreview(
+    navController: NavHostController = rememberNavController()
+) {
     TemanTanamTheme {
-        LoginScreen()
+        LoginScreen(
+            navController = navController
+        )
     }
 }
