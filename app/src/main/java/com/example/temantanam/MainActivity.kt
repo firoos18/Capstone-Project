@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-            shouldShowCamera.value = true
+            SHOULD_SHOW_CAMERA.value = true
         } else {
 
         }
@@ -55,10 +55,10 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     TemanTanamApp(
-                        shouldShowCamera = shouldShowCamera,
+                        shouldShowCamera = SHOULD_SHOW_CAMERA,
                         cameraExecutor = cameraExecutor,
                         outputDirectory = outputDirectory,
-                        shouldShowPhoto = shouldShowPhoto,
+                        shouldShowPhoto = SHOULD_SHOW_PHOTO,
                         handleImageCapture = ::handleImageCapture
                     )
                 }
@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
                 this,
                 Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED -> {
-                shouldShowCamera.value = true
+                SHOULD_SHOW_CAMERA.value = true
             }
 
             ActivityCompat.shouldShowRequestPermissionRationale(
@@ -92,10 +92,10 @@ class MainActivity : ComponentActivity() {
 
     private fun handleImageCapture(uri : Uri) {
         Log.e("PhotoUri", "Photo Uri : $uri")
-        shouldShowCamera.value = false
+        SHOULD_SHOW_CAMERA.value = false
 
         PHOTO_URI = uri
-        shouldShowPhoto.value = true
+        SHOULD_SHOW_PHOTO.value = true
     }
 
     private fun getOutputDirectory() : File {
@@ -112,6 +112,9 @@ class MainActivity : ComponentActivity() {
     }
 
     companion object {
-        var PHOTO_URI = "".toUri()
+        var PHOTO_URI : Uri? = "".toUri()
+
+        var SHOULD_SHOW_PHOTO : MutableState<Boolean> = mutableStateOf(false)
+        var SHOULD_SHOW_CAMERA : MutableState<Boolean> = mutableStateOf(false)
     }
 }

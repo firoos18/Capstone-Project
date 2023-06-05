@@ -47,6 +47,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
 import com.example.temantanam.navigation.NavigationItem
 import com.example.temantanam.navigation.Screen
@@ -114,79 +115,87 @@ fun TemanTanamApp(
            }
            composable(Screen.Camera.route) {
                if (shouldShowCamera.value) {
-                   CameraScreen(
-                       outputDirectory = outputDirectory,
-                       executor = cameraExecutor,
-                       onImageCaptured = handleImageCapture,
-                       onError = {
-                           Log.e("CameraScreen", "View error :", it)
-                       }
-                   )
+                       CameraScreen(
+                           outputDirectory = outputDirectory,
+                           executor = cameraExecutor,
+                           onImageCaptured = handleImageCapture,
+                           onError = {
+                               Log.e("CameraScreen", "View error :", it)
+                           }
+                       )
                }
 
                if(shouldShowPhoto.value) {
-                   Log.i("PhotoUri", "Photo Uri : ${MainActivity.PHOTO_URI}")
-                   Column(
-                       modifier = Modifier
-                           .fillMaxSize()
-                   ) {
-                       IconButton(
-                           onClick = {
-                               shouldShowCamera.value = true
-                               shouldShowPhoto.value = false
-                           },
+                       Log.i("PhotoUri", "Photo Uri : ${MainActivity.PHOTO_URI}")
+                       Column(
                            modifier = Modifier
-                               .padding(top = 16.dp, start = 16.dp, end = 16.dp)
-                               .width(200.dp)
+                               .fillMaxSize()
                        ) {
+                           IconButton(
+                               onClick = {
+                                   shouldShowCamera.value = true
+                                   shouldShowPhoto.value = false
+                               },
+                               modifier = Modifier
+                                   .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                                   .width(200.dp)
+                           ) {
+                               Row(
+                                   modifier = Modifier.fillMaxWidth(),
+                                   verticalAlignment = Alignment.CenterVertically
+                               ) {
+                                   Icon(
+                                       imageVector = Icons.Default.ChevronLeft,
+                                       contentDescription = "Back Button",
+                                       Modifier.size(36.dp)
+                                   )
+                                   Text(text = "Take Another Picture")
+                               }
+                           }
+
+                           AsyncImage(
+                               model = MainActivity.PHOTO_URI,
+                               contentDescription = null,
+                               modifier = Modifier.size(500.dp)
+                           )
+
+//                           Image(
+//                               painter = rememberImagePainter(MainActivity.PHOTO_URI),
+//                               contentDescription = null,
+//                               modifier = Modifier.size(500.dp)
+//                           )
+
                            Row(
-                               modifier = Modifier.fillMaxWidth(),
-                               verticalAlignment = Alignment.CenterVertically
+                               modifier = Modifier
+                                   .fillMaxWidth()
+                                   .padding(start = 24.dp, end = 24.dp),
+                               horizontalArrangement = Arrangement.SpaceBetween
                            ) {
-                               Icon(
-                                   imageVector = Icons.Default.ChevronLeft,
-                                   contentDescription = "Back Button",
-                                   Modifier.size(36.dp)
-                               )
-                               Text(text = "Take Another Picture")
+                               FilledTonalButton(
+                                   onClick = {},
+                                   shape = RoundedCornerShape(8.dp),
+                                   colors = ButtonDefaults.buttonColors(
+                                       containerColor = Color(0xffD9D9D9),
+                                       contentColor = Color(0xff1E1E1E)
+                                   )
+                               ) {
+                                   Text(text = "Disease Analysis")
+                               }
+                               FilledTonalButton(
+                                   onClick = {},
+                                   shape = RoundedCornerShape(8.dp),
+                                   colors = ButtonDefaults.buttonColors(
+                                       containerColor = Color(0xffD9D9D9),
+                                       contentColor = Color(0xff1E1E1E)
+                                   )
+                               ) {
+                                   Text(text = "Type Analysis")
+                               }
                            }
                        }
-
-                       Image(
-                           painter = rememberImagePainter(MainActivity.PHOTO_URI),
-                           contentDescription = null,
-                           modifier = Modifier.size(500.dp)
-                       )
-
-                       Row(
-                           modifier = Modifier
-                               .fillMaxWidth()
-                               .padding(start = 24.dp, end = 24.dp),
-                           horizontalArrangement = Arrangement.SpaceBetween
-                       ) {
-                           FilledTonalButton(
-                               onClick = {},
-                               shape = RoundedCornerShape(8.dp),
-                               colors = ButtonDefaults.buttonColors(
-                                   containerColor = Color(0xffD9D9D9),
-                                   contentColor = Color(0xff1E1E1E)
-                               )
-                           ) {
-                               Text(text = "Disease Analysis")
-                           }
-                           FilledTonalButton(
-                               onClick = {},
-                               shape = RoundedCornerShape(8.dp),
-                               colors = ButtonDefaults.buttonColors(
-                                   containerColor = Color(0xffD9D9D9),
-                                   contentColor = Color(0xff1E1E1E)
-                               )
-                           ) {
-                               Text(text = "Type Analysis")
-                           }
-                       }
-                   }
                }
+
+
            }
            composable(Screen.Collections.route) {
                CollectionsScreen()
