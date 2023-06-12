@@ -1,9 +1,15 @@
 package com.example.temantanam
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +23,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
@@ -30,6 +37,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,14 +63,19 @@ import com.example.temantanam.ui.screen.analyzeenvironment.AnalyzeEnvironmentScr
 import com.example.temantanam.ui.screen.authentication.login.LoginScreen
 import com.example.temantanam.ui.screen.authentication.register.RegisterScreen
 import com.example.temantanam.ui.screen.camera.CameraScreen
+import com.example.temantanam.ui.screen.camera.ObjectDetection
 import com.example.temantanam.ui.screen.collections.CollectionsScreen
 import com.example.temantanam.ui.screen.currentweather.CurrentWeatherScreen
 import com.example.temantanam.ui.screen.home.HomeScreen
 import com.example.temantanam.ui.screen.plantcycopedia.PlantcycopediaScreen
 import com.example.temantanam.ui.theme.TemanTanamTheme
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import java.io.File
 import java.util.concurrent.ExecutorService
 
+@RequiresApi(Build.VERSION_CODES.P)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,9 +86,18 @@ fun TemanTanamApp(
     cameraExecutor : ExecutorService,
     shouldShowPhoto : MutableState<Boolean>,
     handleImageCapture : (Uri) -> Unit,
+    auth : FirebaseAuth
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentState = navBackStackEntry?.destination?.route
+
+    val currentUser = auth.currentUser
+    var startingScreen : String = ""
+    if (currentUser != null) {
+        startingScreen = "home"
+    } else {
+        startingScreen = "login"
+    }
 
     Scaffold(
         topBar = {
@@ -87,7 +109,7 @@ fun TemanTanamApp(
                      currentState != Screen.Camera.route
                     )
                  {
-                     TopBarApp()
+                     TopBarApp(auth = auth)
                  }
         },
         bottomBar = {
@@ -103,15 +125,15 @@ fun TemanTanamApp(
             }
         }
     ) {
-       NavHost(navController = navController, startDestination = "home") {
+       NavHost(navController = navController, startDestination = startingScreen) {
            composable(Screen.Home.route) {
-               HomeScreen(navController)
+               HomeScreen(navController, auth)
            }
            composable(Screen.Login.route) {
-               LoginScreen(navController)
+               LoginScreen(navController, auth)
            }
            composable(Screen.Register.route) {
-               RegisterScreen(navController)
+               RegisterScreen(navController, auth)
            }
            composable(Screen.Camera.route) {
                if (shouldShowCamera.value) {
@@ -126,7 +148,9 @@ fun TemanTanamApp(
                }
 
                if(shouldShowPhoto.value) {
-                       Log.i("PhotoUri", "Photo Uri : ${MainActivity.PHOTO_URI}")
+//                   val results = ObjectDetection.detect(LocalContext.current, BitmapFactory.decodeFile(MainActivity.PHOTO_PATH))
+//                   Log.d("DETECTIONRESULTS", results.toString())
+
                        Column(
                            modifier = Modifier
                                .fillMaxSize()
@@ -158,12 +182,6 @@ fun TemanTanamApp(
                                contentDescription = null,
                                modifier = Modifier.size(500.dp)
                            )
-
-//                           Image(
-//                               painter = rememberImagePainter(MainActivity.PHOTO_URI),
-//                               contentDescription = null,
-//                               modifier = Modifier.size(500.dp)
-//                           )
 
                            Row(
                                modifier = Modifier
@@ -223,32 +241,42 @@ fun TemanTanamApp(
 
 @Composable
 fun TopBarApp(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    auth: FirebaseAuth
 ) {
+    var username : MutableState<String> = remember { mutableStateOf("") }
+    username.value = auth.currentUser?.displayName.toString()
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 24.dp, horizontal = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Image(
-            painter = painterResource(R.drawable.haerin),
-            contentDescription = "Profile Picture",
-            modifier = Modifier
-                .clip(CircleShape)
-                .size(46.dp)
-        )
-        Column(Modifier.padding(start = 8.dp)) {
-            Text(
-                text = "Hello,",
-                fontWeight = FontWeight.Light,
-                fontSize = 14.sp
+        Row {
+            Image(
+                painter = painterResource(R.drawable.haerin),
+                contentDescription = "Profile Picture",
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(46.dp)
             )
-            Text(
-                text = "Haerin",
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp
-            )
+            Column(Modifier.padding(start = 8.dp)) {
+                Text(
+                    text = "Hello,",
+                    fontWeight = FontWeight.Light,
+                    fontSize = 14.sp
+                )
+                Text(
+                    text = username.value,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp
+                )
+            }
+        }
+        IconButton(onClick = {auth.signOut()}) {
+            Icon(Icons.Default.Logout, contentDescription = "LogOut")
         }
     }
 }
@@ -257,7 +285,7 @@ fun TopBarApp(
 @Composable
 fun TopBarAppPreview() {
     TemanTanamTheme {
-        TopBarApp()
+        TopBarApp(auth = Firebase.auth)
     }
 }
 

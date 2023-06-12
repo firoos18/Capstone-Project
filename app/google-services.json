@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "757189599013",
+    "project_id": "teman-tanam",
+    "storage_bucket": "teman-tanam.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757189599013:android:652a94fcb191dfe57684cc",
+        "android_client_info": {
+          "package_name": "com.example.temantanam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "757189599013-9aafnpgm0dd270hmdiqbvrd7pgoidjs6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.temantanam",
+            "certificate_hash": "2f7015f687ddb292e7713ce24f5f84d7927f8037"
+          }
+        },
+        {
+          "client_id": "757189599013-8f49sn9uuepa8cq8ls4jmk4deqspobo6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQoA3uZgh4KiFLnRgPh3QL52soxFRFDhM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "757189599013-8f49sn9uuepa8cq8ls4jmk4deqspobo6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

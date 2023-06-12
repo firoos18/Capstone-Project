@@ -36,10 +36,14 @@ import com.example.temantanam.R
 import com.example.temantanam.model.MenuItemData
 import com.example.temantanam.navigation.Screen
 import com.example.temantanam.ui.theme.TemanTanamTheme
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun HomeScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    auth : FirebaseAuth
 ) {
     Column(
         modifier = Modifier
@@ -70,10 +74,11 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 fun HomePreview(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    auth : FirebaseAuth = Firebase.auth
 ) {
     TemanTanamTheme {
-        HomeScreen(navController = navController)
+        HomeScreen(navController = navController, auth)
     }
 }
 

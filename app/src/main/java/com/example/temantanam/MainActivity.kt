@@ -1,13 +1,19 @@
 package com.example.temantanam
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.speech.RecognitionListener
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageProxy
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -20,8 +26,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import com.example.temantanam.ml.PlantDiseaseMobilenet150
 import com.example.temantanam.ui.screen.camera.CameraScreen
 import com.example.temantanam.ui.theme.TemanTanamTheme
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import org.tensorflow.lite.task.vision.classifier.Classifications
 import java.io.File
 import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
@@ -30,6 +41,7 @@ import java.util.concurrent.Executors
 class MainActivity : ComponentActivity() {
     private lateinit var outputDirectory : File
     private lateinit var cameraExecutor: ExecutorService
+    private lateinit var auth : FirebaseAuth
 
     private var shouldShowCamera : MutableState<Boolean> = mutableStateOf(false)
 
@@ -45,6 +57,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -59,7 +72,8 @@ class MainActivity : ComponentActivity() {
                         cameraExecutor = cameraExecutor,
                         outputDirectory = outputDirectory,
                         shouldShowPhoto = SHOULD_SHOW_PHOTO,
-                        handleImageCapture = ::handleImageCapture
+                        handleImageCapture = ::handleImageCapture,
+                        auth = auth
                     )
                 }
             }
@@ -68,6 +82,8 @@ class MainActivity : ComponentActivity() {
 
         outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
+
+        auth = Firebase.auth
     }
 
     private fun requestCameraPermission() {
@@ -114,7 +130,11 @@ class MainActivity : ComponentActivity() {
     companion object {
         var PHOTO_URI : Uri? = "".toUri()
 
+        var PHOTO_PATH : String = ""
+
         var SHOULD_SHOW_PHOTO : MutableState<Boolean> = mutableStateOf(false)
         var SHOULD_SHOW_CAMERA : MutableState<Boolean> = mutableStateOf(false)
+
+        var RESULT : MutableState<String> = mutableStateOf("")
     }
 }

@@ -30,11 +30,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    navController : NavHostController
+    navController : NavHostController,
+    auth : FirebaseAuth
 ) {
     var emailInput by remember{ mutableStateOf("") }
     var passwordInput by remember{ mutableStateOf("") }
@@ -59,7 +63,7 @@ fun LoginScreen(
                     .fillMaxWidth()
                     .sizeIn(minHeight = 54.dp),
                 value = emailInput,
-                onValueChange = {},
+                onValueChange = { emailInput = it },
                 singleLine = true,
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
@@ -76,7 +80,7 @@ fun LoginScreen(
                     .fillMaxWidth()
                     .sizeIn(minHeight = 54.dp),
                 value = passwordInput,
-                onValueChange = {},
+                onValueChange = { passwordInput = it },
                 singleLine = true,
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
@@ -96,7 +100,12 @@ fun LoginScreen(
         }
         Spacer(modifier = Modifier.size(190.dp))
         FilledTonalButton(
-            onClick = {},
+            onClick = {
+                val login = auth.signInWithEmailAndPassword(emailInput, passwordInput)
+                login.addOnSuccessListener {
+                    navController.navigate("home")
+                }
+            },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
@@ -130,11 +139,13 @@ fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    firebaseAuth: FirebaseAuth = Firebase.auth
 ) {
     TemanTanamTheme {
         LoginScreen(
-            navController = navController
+            navController = navController,
+            firebaseAuth
         )
     }
 }

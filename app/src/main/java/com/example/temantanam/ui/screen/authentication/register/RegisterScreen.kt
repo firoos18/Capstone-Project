@@ -1,5 +1,6 @@
 package com.example.temantanam.ui.screen.authentication.register
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,8 +11,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -19,11 +27,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,16 +44,30 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.temantanam.ui.theme.TemanTanamTheme
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
-    navController : NavHostController
+    navController : NavHostController,
+    auth : FirebaseAuth
 ) {
     var emailInput by remember{ mutableStateOf("") }
     var passwordInput by remember{ mutableStateOf("") }
     var rePasswordInput by remember{ mutableStateOf("") }
     var usernameInput by remember{ mutableStateOf("") }
+
+    var isError by rememberSaveable { mutableStateOf(false) }
+
+    fun passwordCheck(password : String, rePassword : String) {
+        isError = password != rePassword
+    }
+
+    var passwordVisible by remember { mutableStateOf(false) }
+    var rePasswordVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -62,7 +89,7 @@ fun RegisterScreen(
                     .fillMaxWidth()
                     .sizeIn(minHeight = 54.dp),
                 value = emailInput,
-                onValueChange = {},
+                onValueChange = { emailInput = it },
                 singleLine = true,
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
@@ -79,7 +106,7 @@ fun RegisterScreen(
                     .fillMaxWidth()
                     .sizeIn(minHeight = 54.dp),
                 value = usernameInput,
-                onValueChange = {},
+                onValueChange = { usernameInput = it },
                 singleLine = true,
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
@@ -96,8 +123,10 @@ fun RegisterScreen(
                     .fillMaxWidth()
                     .sizeIn(minHeight = 54.dp),
                 value = passwordInput,
-                onValueChange = {},
+                onValueChange = { passwordInput = it },
                 singleLine = true,
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     focusedIndicatorColor = Color.Transparent,
@@ -105,6 +134,19 @@ fun RegisterScreen(
                 ),
                 placeholder = {
                     Text(text = "Password")
+                },
+                trailingIcon = {
+                    val image = if (passwordVisible)
+                        Icons.Filled.Visibility
+                    else Icons.Filled.VisibilityOff
+
+                    // Localized description for accessibility services
+                    val description = if (passwordVisible) "Hide password" else "Show password"
+
+                    // Toggle button to hide or display password
+                    IconButton(onClick = {passwordVisible = !passwordVisible}) {
+                        Icon(image, description)
+                    }
                 }
             )
             Spacer(modifier = Modifier.size(24.dp))
@@ -113,21 +155,62 @@ fun RegisterScreen(
                     .fillMaxWidth()
                     .sizeIn(minHeight = 54.dp),
                 value = rePasswordInput,
-                onValueChange = {},
+                onValueChange = {
+                    rePasswordInput = it
+                    passwordCheck(passwordInput, rePasswordInput)
+                                },
                 singleLine = true,
+                visualTransformation = if (rePasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Password")
+                    Text(text = "Re - Password")
+                },
+                isError = isError,
+                supportingText = {
+                    if (isError) {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = "Password is not the same",
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                },
+                trailingIcon = {
+                    val image = if (rePasswordVisible)
+                        Icons.Filled.Visibility
+                    else Icons.Filled.VisibilityOff
+
+                    // Localized description for accessibility services
+                    val description = if (rePasswordVisible) "Hide password" else "Show password"
+
+                    // Toggle button to hide or display password
+                    IconButton(onClick = {rePasswordVisible = !rePasswordVisible}) {
+                        Icon(image, description)
+                    }
                 }
             )
         }
         Spacer(modifier = Modifier.size(65.dp))
         FilledTonalButton(
-            onClick = {},
+            onClick = {
+                if (passwordInput == rePasswordInput) {
+                    auth.createUserWithEmailAndPassword(emailInput, passwordInput)
+                        .addOnSuccessListener {
+                            val updateProfile = UserProfileChangeRequest.Builder()
+                                .setDisplayName(usernameInput)
+                                .build()
+                            auth.currentUser?.updateProfile(updateProfile)
+                            navController.navigate("home")
+                        }
+                } else {
+
+                }
+            },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
@@ -161,9 +244,10 @@ fun RegisterScreen(
 @Preview(showBackground = true)
 @Composable
 fun RegisterScreenPreview(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    auth: FirebaseAuth = Firebase.auth
 ) {
     TemanTanamTheme {
-        RegisterScreen(navController)
+        RegisterScreen(navController, auth)
     }
 }
