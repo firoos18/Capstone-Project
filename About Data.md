@@ -16,7 +16,7 @@ Data contains 45 classes : ['Apple_Black_Rot', 'Apple_Cedar_Apple_Rust', 'Apple_
 
 Splitting data : Training (8879 data), Testing (1109), Validation (1109)
 
-Tensorflow model link :
+Tensorflow model link : https://drive.google.com/drive/folders/1-laQf4w3eVFWU9j8G4XJfQXZzqyPJUna?usp=sharing
 
 Crop Recommendation Data
 
