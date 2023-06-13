@@ -51,12 +51,15 @@ import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
+import com.example.temantanam.model.AnalyzeEnvironmentResponse
 import com.example.temantanam.navigation.NavigationItem
 import com.example.temantanam.navigation.Screen
 import com.example.temantanam.ui.screen.analyzeenvironment.AnalyzeEnvironmentScreen
@@ -68,6 +71,7 @@ import com.example.temantanam.ui.screen.collections.CollectionsScreen
 import com.example.temantanam.ui.screen.currentweather.CurrentWeatherScreen
 import com.example.temantanam.ui.screen.home.HomeScreen
 import com.example.temantanam.ui.screen.plantcycopedia.PlantcycopediaScreen
+import com.example.temantanam.ui.screen.plantdetails.PlantDetails
 import com.example.temantanam.ui.theme.TemanTanamTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -106,7 +110,8 @@ fun TemanTanamApp(
                      currentState != Screen.Login.route &&
                      currentState != Screen.Register.route &&
                      currentState != Screen.AnalyzeEnvironment.route &&
-                     currentState != Screen.Camera.route
+                     currentState != Screen.Camera.route &&
+                     currentState != Screen.PlantDetails.route
                     )
                  {
                      TopBarApp(auth = auth)
@@ -118,7 +123,8 @@ fun TemanTanamApp(
                 currentState != Screen.Login.route &&
                 currentState != Screen.Register.route &&
                 currentState != Screen.AnalyzeEnvironment.route &&
-                currentState != Screen.Camera.route
+                currentState != Screen.Camera.route &&
+                currentState != Screen.PlantDetails.route
                 )
             {
                 BottomAppBar(navController = navController)
@@ -222,10 +228,13 @@ fun TemanTanamApp(
                CurrentWeatherScreen()
            }
            composable(Screen.AnalyzeEnvironment.route) {
-               AnalyzeEnvironmentScreen()
+               AnalyzeEnvironmentScreen(navController)
            }
            composable(Screen.Plantcycopedia.route) {
                PlantcycopediaScreen()
+           }
+           composable(Screen.PlantDetails.route) {
+               PlantDetails()
            }
        }
     }

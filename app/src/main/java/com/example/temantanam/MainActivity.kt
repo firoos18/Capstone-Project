@@ -27,6 +27,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.example.temantanam.ml.PlantDiseaseMobilenet150
+import com.example.temantanam.model.AnalyzeEnvironmentResponse
 import com.example.temantanam.ui.screen.camera.CameraScreen
 import com.example.temantanam.ui.theme.TemanTanamTheme
 import com.google.firebase.auth.FirebaseAuth
@@ -136,5 +137,8 @@ class MainActivity : ComponentActivity() {
         var SHOULD_SHOW_CAMERA : MutableState<Boolean> = mutableStateOf(false)
 
         var RESULT : MutableState<String> = mutableStateOf("")
+
+        var RESPONSERESULT : MutableState<AnalyzeEnvironmentResponse> =
+            mutableStateOf(AnalyzeEnvironmentResponse("", "", "", "", "", "", 0, "", ""))
     }
 }

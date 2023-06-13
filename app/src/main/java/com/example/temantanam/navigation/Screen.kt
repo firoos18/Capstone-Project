@@ -9,4 +9,5 @@ sealed class Screen(val route : String) {
     object Plantcycopedia : Screen("plantcycopedia")
     object Camera : Screen("camera")
     object Collections : Screen("collections")
+    object PlantDetails : Screen("details")
 }
