@@ -6,7 +6,7 @@ Dataset Total files : 11.097
 
 Dataset source, collected from public dataset
 
-Dataset link : 
+Dataset link : https://drive.google.com/drive/folders/1EWWIrKoTOc7HPXCA3JY0jGH2Umcpx0Wv?usp=sharing
 
 Data contains 45 classes : ['Apple_Black_Rot', 'Apple_Cedar_Apple_Rust', 'Apple_Healthy', 'Apple_Scab', 'Bell_Pepper_Bacterial_Spot', 'Bell_Pepper_Healthy', 'Blueberry_Healthy', 'Cherry_Healthy', 
 'Cherry_Powdery_Mildew', 'Corn_Cercospora', 'Corn_Common_Rust', 'Corn_Healthy', 'Corn_Northern', 'Grape_Black_Rot', 'Grape_Blight', 'Grape_Esca', 'Grape_Healthy', 'Peach_Bacterial_Spot', 
