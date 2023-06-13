@@ -20,4 +20,11 @@ Tensorflow model link : https://drive.google.com/drive/folders/1-laQf4w3eVFWU9j8
 
 Crop Recommendation Data
 
+Dataset Total files : 24.200
 
+Dataset source collected from public dataset
+
+Dataset link : https://drive.google.com/file/d/1u46GJSx6zVB8OWg9D67H8oDyX8NKCRki/view?usp=drivesdk
+
+Data contains 7 variables : Ratio of Nitrogen Content in Soil, Ratio of Phosphorus Content in Soil, Ratio of Potassium Content in Soil, Temperature,
+Humidity, ph value oh the soil, Rainfall, Labels Name of Plants
