@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
@@ -39,18 +40,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.temantanam.navigation.Screen
-import com.example.temantanam.ui.theme.TemanTanamTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.navigation.NavHostController
+import com.example.compose.TemanTanamTheme
 import com.example.temantanam.MainActivity
 import com.example.temantanam.R
 import com.example.temantanam.data.remote.ApiConfig
 import com.example.temantanam.data.remote.ApiService
 import com.example.temantanam.model.AnalyzeEnvironmentModel
 import com.example.temantanam.model.AnalyzeEnvironmentResponse
+import com.example.temantanam.ui.component.LoadingDialog
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -71,6 +73,12 @@ fun AnalyzeEnvironmentScreen(
     var phosporusLevelInput by remember { mutableStateOf("") }
 
     val context = LocalContext.current
+
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog == true) {
+        LoadingDialog()
+    }
 
     Column(
         modifier = Modifier
@@ -196,7 +204,7 @@ fun AnalyzeEnvironmentScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Natrium (Na) Level")
+                    Text(text = "Natrium (Na) Level (optional)")
                 },
                 leadingIcon = {
                     Icon(painter = painterResource(R.drawable.ic_chemical), contentDescription = "")
@@ -216,7 +224,7 @@ fun AnalyzeEnvironmentScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Kalium (K) Level")
+                    Text(text = "Kalium (K) Level (optional)")
                 },
                 leadingIcon = {
                     Icon(painter = painterResource(R.drawable.ic_chemical), contentDescription = "")
@@ -236,7 +244,7 @@ fun AnalyzeEnvironmentScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Phosporus (P) Level")
+                    Text(text = "Phosporus (P) Level (optional)")
                 },
                 leadingIcon = {
                     Icon(painter = painterResource(R.drawable.ic_chemical), contentDescription = "")
@@ -248,6 +256,12 @@ fun AnalyzeEnvironmentScreen(
 
         FilledTonalButton(
             onClick = {
+                showDialog = true
+
+                if (kaliumLevelInput == "") kaliumLevelInput = "0"
+                if (natriumLevelInput == "") natriumLevelInput = "0"
+                if (phosporusLevelInput == "") phosporusLevelInput = "0"
+
                 val data = AnalyzeEnvironmentModel(
                     N = parseInt(natriumLevelInput),
                     P = parseInt(phosporusLevelInput),
@@ -269,6 +283,8 @@ fun AnalyzeEnvironmentScreen(
                             val resposeBody = response.body()
                             Log.d("RESPONSEBODY", resposeBody!!.plant)
                             MainActivity.RESPONSERESULT.value = resposeBody
+
+                            showDialog = false
                             navController.navigate("details")
                         }
                     }

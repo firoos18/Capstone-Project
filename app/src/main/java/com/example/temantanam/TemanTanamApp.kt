@@ -11,6 +11,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +30,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -38,6 +40,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,9 +62,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
+import com.example.compose.TemanTanamTheme
 import com.example.temantanam.model.AnalyzeEnvironmentResponse
 import com.example.temantanam.navigation.NavigationItem
 import com.example.temantanam.navigation.Screen
+import com.example.temantanam.ui.component.LogOutDialog
 import com.example.temantanam.ui.screen.analyzeenvironment.AnalyzeEnvironmentScreen
 import com.example.temantanam.ui.screen.authentication.login.LoginScreen
 import com.example.temantanam.ui.screen.authentication.register.RegisterScreen
@@ -72,7 +77,6 @@ import com.example.temantanam.ui.screen.currentweather.CurrentWeatherScreen
 import com.example.temantanam.ui.screen.home.HomeScreen
 import com.example.temantanam.ui.screen.plantcycopedia.PlantcycopediaScreen
 import com.example.temantanam.ui.screen.plantdetails.PlantDetails
-import com.example.temantanam.ui.theme.TemanTanamTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -104,6 +108,7 @@ fun TemanTanamApp(
     }
 
     Scaffold(
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
         topBar = {
                  if (currentState != Screen.Plantcycopedia.route &&
                     currentState != Screen.CurrentWeather.route &&
@@ -114,22 +119,22 @@ fun TemanTanamApp(
                      currentState != Screen.PlantDetails.route
                     )
                  {
-                     TopBarApp(auth = auth)
+                     TopBarApp(auth = auth, navController = navController)
                  }
         },
-        bottomBar = {
-            if (currentState != Screen.Plantcycopedia.route &&
-                currentState != Screen.CurrentWeather.route &&
-                currentState != Screen.Login.route &&
-                currentState != Screen.Register.route &&
-                currentState != Screen.AnalyzeEnvironment.route &&
-                currentState != Screen.Camera.route &&
-                currentState != Screen.PlantDetails.route
-                )
-            {
-                BottomAppBar(navController = navController)
-            }
-        }
+//        bottomBar = {
+//            if (currentState != Screen.Plantcycopedia.route &&
+//                currentState != Screen.CurrentWeather.route &&
+//                currentState != Screen.Login.route &&
+//                currentState != Screen.Register.route &&
+//                currentState != Screen.AnalyzeEnvironment.route &&
+//                currentState != Screen.Camera.route &&
+//                currentState != Screen.PlantDetails.route
+//                )
+//            {
+//                BottomAppBar(navController = navController)
+//            }
+//        }
     ) {
        NavHost(navController = navController, startDestination = startingScreen) {
            composable(Screen.Home.route) {
@@ -251,10 +256,17 @@ fun TemanTanamApp(
 @Composable
 fun TopBarApp(
     modifier: Modifier = Modifier,
-    auth: FirebaseAuth
+    auth: FirebaseAuth,
+    navController: NavHostController
 ) {
     var username : MutableState<String> = remember { mutableStateOf("") }
     username.value = auth.currentUser?.displayName.toString()
+
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog == true) {
+        LogOutDialog(auth = auth, navController = navController, closeDialog = { showDialog = false } )
+    }
 
     Row(
         modifier = Modifier
@@ -264,28 +276,37 @@ fun TopBarApp(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row {
-            Image(
-                painter = painterResource(R.drawable.haerin),
-                contentDescription = "Profile Picture",
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(46.dp)
-            )
-            Column(Modifier.padding(start = 8.dp)) {
+            Column {
                 Text(
                     text = "Hello,",
                     fontWeight = FontWeight.Light,
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = username.value,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
-        IconButton(onClick = {auth.signOut()}) {
-            Icon(Icons.Default.Logout, contentDescription = "LogOut")
+        IconButton(
+            onClick = {
+                showDialog = true
+//                auth.signOut()
+//                navController.navigate("login") {
+//                    popUpTo(navController.graph.findStartDestination().id) {
+//                        saveState = true
+//                    }
+//                }
+            }
+        ) {
+            Icon(
+                Icons.Default.Logout,
+                contentDescription = "LogOut",
+                tint = MaterialTheme.colorScheme.onSurface
+            )
         }
     }
 }
@@ -294,69 +315,69 @@ fun TopBarApp(
 @Composable
 fun TopBarAppPreview() {
     TemanTanamTheme {
-        TopBarApp(auth = Firebase.auth)
+        TopBarApp(auth = Firebase.auth, navController = rememberNavController())
     }
 }
-
-@Composable
-fun BottomAppBar(
-    navController : NavHostController,
-) {
-    NavigationBar(
-        modifier = Modifier.clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
-    ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
-
-        val navigationItem = listOf(
-            NavigationItem(
-                title = "Home",
-                icon = R.drawable.ic_home,
-                screen = Screen.Home,
-                contentDescription = "Home Screen"
-            ),
-            NavigationItem(
-                title = "Camera",
-                icon = R.drawable.ic_camera,
-                screen = Screen.Camera,
-                contentDescription = "Camera Screen"
-            ),
-            NavigationItem(
-                title = "Collections",
-                icon = R.drawable.ic_collections,
-                screen = Screen.Collections,
-                contentDescription = "Collections Screen"
-            )
-        )
-
-        NavigationBar {
-            navigationItem.map { item ->
-                NavigationBarItem(
-                    selected = currentRoute == item.screen.route,
-                    onClick = {
-                        navController.navigate(item.screen.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            restoreState = true
-                            launchSingleTop = true
-                        }
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(item.icon),
-                            contentDescription = item.contentDescription,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    },
-                    label = {
-                        Text(
-                            item.title,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-                )
-            }
-        }
-    }
-}
+//
+//@Composable
+//fun BottomAppBar(
+//    navController : NavHostController,
+//) {
+//    NavigationBar(
+//        modifier = Modifier.clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+//    ) {
+//        val navBackStackEntry by navController.currentBackStackEntryAsState()
+//        val currentRoute = navBackStackEntry?.destination?.route
+//
+//        val navigationItem = listOf(
+//            NavigationItem(
+//                title = "Home",
+//                icon = R.drawable.ic_home,
+//                screen = Screen.Home,
+//                contentDescription = "Home Screen"
+//            ),
+//            NavigationItem(
+//                title = "Camera",
+//                icon = R.drawable.ic_camera,
+//                screen = Screen.Camera,
+//                contentDescription = "Camera Screen"
+//            ),
+//            NavigationItem(
+//                title = "Collections",
+//                icon = R.drawable.ic_collections,
+//                screen = Screen.Collections,
+//                contentDescription = "Collections Screen"
+//            )
+//        )
+//
+//        NavigationBar {
+//            navigationItem.map { item ->
+//                NavigationBarItem(
+//                    selected = currentRoute == item.screen.route,
+//                    onClick = {
+//                        navController.navigate(item.screen.route) {
+//                            popUpTo(navController.graph.findStartDestination().id) {
+//                                saveState = true
+//                            }
+//                            restoreState = true
+//                            launchSingleTop = true
+//                        }
+//                    },
+//                    icon = {
+//                        Icon(
+//                            painter = painterResource(item.icon),
+//                            contentDescription = item.contentDescription,
+//                            modifier = Modifier.size(24.dp)
+//                        )
+//                    },
+//                    label = {
+//                        Text(
+//                            item.title,
+//                            fontWeight = FontWeight.SemiBold
+//                        )
+//                    }
+//                )
+//            }
+//        }
+//    }
+//}

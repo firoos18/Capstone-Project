@@ -1,30 +1,26 @@
 package com.example.temantanam.model
 
+import com.example.temantanam.R
 import com.example.temantanam.navigation.Screen
 
 object MenuItemData {
     val menuItems = listOf(
         MenuItem(
             id = 1,
-            title = "Current Weather",
-            subTitle = "Giving plants recommendation based on\n" +
-                    "weather forecast",
-            screen = Screen.CurrentWeather
-        ),
-        MenuItem(
-            id = 2,
             title = "Analyze Environment",
             subTitle = "Analyze the growth environment based on \n" +
                     "the soil temperature and the environment \n" +
                     "altitudes",
-            screen = Screen.AnalyzeEnvironment
+            screen = Screen.AnalyzeEnvironment,
+            icon = R.drawable.ic_chemical
         ),
         MenuItem(
-            id = 3,
-            title = "Plantcycopedia",
-            subTitle = "Find some information about plant \n" +
-                    "and how to treat them",
-            screen = Screen.Plantcycopedia
+            id = 2,
+            title = "Detect Plant Disease",
+            subTitle = "Find out whether your plant is healty \n" +
+                    "or not",
+            screen = Screen.Camera,
+            icon = R.drawable.ic_camera
         ),
     )
 }

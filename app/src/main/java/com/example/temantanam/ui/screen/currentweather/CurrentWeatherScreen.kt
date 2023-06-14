@@ -36,7 +36,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import com.example.temantanam.ui.theme.TemanTanamTheme
+import com.example.compose.TemanTanamTheme
 import com.example.temantanam.R
 import com.example.temantanam.model.WeatherInfoData
 

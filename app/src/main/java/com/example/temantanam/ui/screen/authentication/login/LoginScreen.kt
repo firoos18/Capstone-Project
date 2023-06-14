@@ -10,8 +10,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -24,12 +30,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.temantanam.ui.theme.TemanTanamTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.compose.TemanTanamTheme
+import com.example.temantanam.ui.component.LoadingDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -42,6 +52,14 @@ fun LoginScreen(
 ) {
     var emailInput by remember{ mutableStateOf("") }
     var passwordInput by remember{ mutableStateOf("") }
+
+    var passwordVisible by remember { mutableStateOf(false) }
+
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog == true) {
+        LoadingDialog()
+    }
 
     Column(
         modifier = Modifier
@@ -89,20 +107,32 @@ fun LoginScreen(
                 ),
                 placeholder = {
                     Text(text = "Password")
+                },
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                trailingIcon = {
+                    val image = if (passwordVisible)
+                        Icons.Filled.Visibility
+                    else Icons.Filled.VisibilityOff
+
+                    // Localized description for accessibility services
+                    val description = if (passwordVisible) "Hide password" else "Show password"
+
+                    // Toggle button to hide or display password
+                    IconButton(onClick = {passwordVisible = !passwordVisible}) {
+                        Icon(image, description)
+                    }
                 }
             )
-            Spacer(modifier = Modifier.size(16.dp))
-            Text(
-                text = "Forget password?",
-                modifier = Modifier.clickable {  },
-                fontWeight = FontWeight.Light
-            )
         }
-        Spacer(modifier = Modifier.size(190.dp))
+        Spacer(modifier = Modifier.size(240.dp))
         FilledTonalButton(
             onClick = {
+                showDialog = true
                 val login = auth.signInWithEmailAndPassword(emailInput, passwordInput)
+
                 login.addOnSuccessListener {
+                    showDialog = false
                     navController.navigate("home")
                 }
             },

@@ -6,5 +6,6 @@ data class MenuItem(
     val id : Int,
     val title : String,
     val subTitle : String,
-    val screen: Screen
+    val screen: Screen,
+    val icon : Int
 )

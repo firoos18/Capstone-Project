@@ -43,7 +43,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.temantanam.ui.theme.TemanTanamTheme
+import com.example.compose.TemanTanamTheme
+import com.example.temantanam.ui.component.LoadingDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
@@ -68,6 +69,12 @@ fun RegisterScreen(
 
     var passwordVisible by remember { mutableStateOf(false) }
     var rePasswordVisible by remember { mutableStateOf(false) }
+
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog == true) {
+        LoadingDialog()
+    }
 
     Column(
         modifier = Modifier
@@ -198,17 +205,18 @@ fun RegisterScreen(
         Spacer(modifier = Modifier.size(65.dp))
         FilledTonalButton(
             onClick = {
+                showDialog = true
+
                 if (passwordInput == rePasswordInput) {
                     auth.createUserWithEmailAndPassword(emailInput, passwordInput)
                         .addOnSuccessListener {
+                            showDialog = false
                             val updateProfile = UserProfileChangeRequest.Builder()
                                 .setDisplayName(usernameInput)
                                 .build()
                             auth.currentUser?.updateProfile(updateProfile)
                             navController.navigate("home")
                         }
-                } else {
-
                 }
             },
             shape = RoundedCornerShape(10.dp),

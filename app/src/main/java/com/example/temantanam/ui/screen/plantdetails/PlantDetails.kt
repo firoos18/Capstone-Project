@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,13 +26,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.compose.TemanTanamTheme
 import com.example.temantanam.MainActivity
 import com.example.temantanam.R
 import com.example.temantanam.model.AnalyzeEnvironmentModel
 import com.example.temantanam.model.AnalyzeEnvironmentResponse
 import com.example.temantanam.model.PlantInfoModel
 import com.example.temantanam.ui.component.PlantInfo
-import com.example.temantanam.ui.theme.TemanTanamTheme
 
 @Composable
 fun PlantDetails() {
@@ -55,13 +56,15 @@ fun PlantDetails() {
                 Text(
                     text = MainActivity.RESPONSERESULT.value.plant,
                     fontSize = 24.sp,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = MainActivity.RESPONSERESULT.value.scientificName,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Light,
-                    fontStyle = FontStyle.Italic
+                    fontStyle = FontStyle.Italic,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
 
@@ -73,13 +76,15 @@ fun PlantDetails() {
                 Text(
                     text = "Description",
                     fontWeight = FontWeight.Medium,
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = MainActivity.RESPONSERESULT.value.description,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Light,
-                    textAlign = TextAlign.Justify
+                    textAlign = TextAlign.Justify,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
 

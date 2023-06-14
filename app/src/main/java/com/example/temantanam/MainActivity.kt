@@ -26,10 +26,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import com.example.compose.TemanTanamTheme
 import com.example.temantanam.ml.PlantDiseaseMobilenet150
 import com.example.temantanam.model.AnalyzeEnvironmentResponse
 import com.example.temantanam.ui.screen.camera.CameraScreen
-import com.example.temantanam.ui.theme.TemanTanamTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.surface
                 ) {
                     TemanTanamApp(
                         shouldShowCamera = SHOULD_SHOW_CAMERA,

@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.temantanam.R
 import androidx.compose.runtime.*
+import com.example.compose.TemanTanamTheme
 import com.example.temantanam.ui.component.PlantItem
-import com.example.temantanam.ui.theme.TemanTanamTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
