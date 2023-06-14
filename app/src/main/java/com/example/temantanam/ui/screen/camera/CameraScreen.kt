@@ -76,6 +76,7 @@ import androidx.core.net.toUri
 import com.example.temantanam.MainActivity
 import com.example.temantanam.ml.Generated
 import com.example.temantanam.ml.PlantDiseaseMobilenet150
+import com.example.temantanam.ui.theme.Poppins
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
@@ -201,7 +202,8 @@ fun CameraScreen(
                     text = MainActivity.RESULT.value,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    fontFamily = Poppins
                     )
             }
         }

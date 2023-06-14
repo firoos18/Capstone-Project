@@ -27,6 +27,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.TemanTanamTheme
+import com.example.temantanam.ui.theme.Poppins
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -48,7 +49,7 @@ fun LogOutDialog(
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Are you sure?")
+            Text(text = "Are you sure?", fontFamily = Poppins)
             Row() {
                 TextButton(onClick = {
                     auth.signOut()
@@ -60,13 +61,15 @@ fun LogOutDialog(
                 }) {
                     Text(
                         text = "Log Out",
-                        color = MaterialTheme.colorScheme.error
+                        color = MaterialTheme.colorScheme.error,
+                        fontFamily = Poppins
                     )
                 }
                 TextButton(onClick = closeDialog) {
                     Text(
                         text = "Cancel",
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
+                        fontFamily = Poppins
                     )
                 }
             }

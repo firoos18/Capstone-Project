@@ -85,6 +85,6 @@ fun TemanTanamTheme(
 
   MaterialTheme(
     colorScheme = colors,
-    content = content
+    content = content,
   )
 }

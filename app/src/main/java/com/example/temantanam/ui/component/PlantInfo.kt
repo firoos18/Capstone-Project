@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import com.example.compose.TemanTanamTheme
 import com.example.temantanam.model.PlantInfoModel
 import com.example.temantanam.R
+import com.example.temantanam.ui.theme.Poppins
 
 @Composable
 fun PlantInfo(
@@ -40,13 +41,15 @@ fun PlantInfo(
                 text = plantInfoModel.title,
                 fontSize = 8.sp,
                 fontWeight = FontWeight.Light,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                fontFamily = Poppins
             )
             Text(
                 text = plantInfoModel.value,
                 fontSize = 8.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                fontFamily = Poppins
             )
         }
     }

@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.compose.TemanTanamTheme
+import com.example.temantanam.ui.theme.Poppins
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,7 +43,8 @@ fun LoadingDialog() {
             Text(
                 text = "Loading...",
                 fontWeight = FontWeight.Light,
-                color = MaterialTheme.colorScheme.onTertiaryContainer
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
+                fontFamily = Poppins
             )
         }
     }

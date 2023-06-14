@@ -77,6 +77,7 @@ import com.example.temantanam.ui.screen.currentweather.CurrentWeatherScreen
 import com.example.temantanam.ui.screen.home.HomeScreen
 import com.example.temantanam.ui.screen.plantcycopedia.PlantcycopediaScreen
 import com.example.temantanam.ui.screen.plantdetails.PlantDetails
+import com.example.temantanam.ui.theme.Poppins
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -281,13 +282,15 @@ fun TopBarApp(
                     text = "Hello,",
                     fontWeight = FontWeight.Light,
                     fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontFamily = Poppins
                 )
                 Text(
                     text = username.value,
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontFamily = Poppins
                 )
             }
         }

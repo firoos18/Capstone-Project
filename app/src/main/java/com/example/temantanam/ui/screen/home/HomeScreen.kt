@@ -43,6 +43,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -61,6 +62,7 @@ import com.example.temantanam.model.AnalyzeEnvironmentModel
 import com.example.temantanam.model.AnalyzeEnvironmentResponse
 import com.example.temantanam.model.MenuItemData
 import com.example.temantanam.navigation.Screen
+import com.example.temantanam.ui.theme.Poppins
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -89,22 +91,24 @@ fun HomeScreen(
             .padding(start = 24.dp, end = 24.dp, top = 80.dp)
     ) {
         Text(
-            text = "Let’s find what crops suits \n" +
-                    "your environment!",
+            text = "Teman Tanam, your crop \n" +
+                    "planting assistants!",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
+            fontFamily = Poppins
         )
         
         Spacer(modifier = Modifier.height(8.dp))
         
         Text(
-            text = "Analyze the growth environment based on \n" +
-                    "the soil temperature and the environment \n" +
-                    "altitudes",
+            text = "Teman Tanam help you identify what kind of crops \n" +
+                    "that suits your environment and identify \n" +
+                    "whether your crops is healthy",
             fontSize = 12.sp,
             fontWeight = FontWeight.Light,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
+            fontFamily = Poppins
         )
         Spacer(modifier = Modifier.size(16.dp))
         LazyColumn(
@@ -177,20 +181,24 @@ fun MenuItem(
             Spacer(modifier = Modifier.width(8.dp))
             
             Column(
-                modifier = Modifier.width(280.dp)
+                modifier = Modifier.width(250.dp)
             ) {
                 Text(
                     text = title,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    fontFamily = Poppins,
+                    color = MaterialTheme.colorScheme.onPrimary,
+//                    style = MaterialTheme.typography.titleSmall,
                 )
                 Text(
                     text = subTitle,
                     fontSize = 12.sp,
+                    lineHeight = 16.sp,
                     fontWeight = FontWeight.Light,
                     color = MaterialTheme.colorScheme.onPrimary,
-                    lineHeight = 16.sp,
+                    fontFamily = Poppins
+//                    style = MaterialTheme.typography.bodySmall
                 )
             }
             IconButton(

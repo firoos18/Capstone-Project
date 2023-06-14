@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomSheetScaffold
@@ -53,6 +55,7 @@ import com.example.temantanam.data.remote.ApiService
 import com.example.temantanam.model.AnalyzeEnvironmentModel
 import com.example.temantanam.model.AnalyzeEnvironmentResponse
 import com.example.temantanam.ui.component.LoadingDialog
+import com.example.temantanam.ui.theme.Poppins
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -83,7 +86,8 @@ fun AnalyzeEnvironmentScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp, vertical = 24.dp),
+            .padding(horizontal = 24.dp, vertical = 24.dp)
+            .verticalScroll(state = rememberScrollState(), reverseScrolling = true, enabled = true),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Column(
@@ -93,7 +97,8 @@ fun AnalyzeEnvironmentScreen(
             Text(
                 text = "Analyze Environment",
                 fontSize = 24.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = Poppins
             )
             Text(
                 text = "Analyze the growth environment based on \n" +
@@ -101,7 +106,8 @@ fun AnalyzeEnvironmentScreen(
                     "altitudes",
                 fontSize = 12.sp,
                 textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Light
+                fontWeight = FontWeight.Light,
+                fontFamily = Poppins
             )
         }
         
@@ -124,7 +130,11 @@ fun AnalyzeEnvironmentScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Rainfall")
+                    Text(
+                        text = "Rainfall",
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.Light
+                    )
                 },
                 leadingIcon = {
                     Icon(painter = painterResource(R.drawable.ic_rainfall), contentDescription = "")
@@ -144,7 +154,11 @@ fun AnalyzeEnvironmentScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Soil Temperature")
+                    Text(
+                        text = "Soil Temperature",
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.Light
+                    )
                 },
                 leadingIcon = {
                     Icon(painter = painterResource(R.drawable.ic_soil_temperature), contentDescription = "")
@@ -164,7 +178,11 @@ fun AnalyzeEnvironmentScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Humidity")
+                    Text(
+                        text = "Humidity",
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.Light
+                    )
                 },
                 leadingIcon = {
                     Icon(painter = painterResource(R.drawable.ic_humidity), contentDescription = "")
@@ -184,7 +202,11 @@ fun AnalyzeEnvironmentScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "pH Level")
+                    Text(
+                        text = "pH Level",
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.Light
+                    )
                 },
                 leadingIcon = {
                     Icon(painter = painterResource(R.drawable.ic_chemical), contentDescription = "")
@@ -204,7 +226,11 @@ fun AnalyzeEnvironmentScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Natrium (Na) Level (optional)")
+                    Text(
+                        text = "Natrium (Na) Level (optional)",
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.Light
+                    )
                 },
                 leadingIcon = {
                     Icon(painter = painterResource(R.drawable.ic_chemical), contentDescription = "")
@@ -224,7 +250,11 @@ fun AnalyzeEnvironmentScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Kalium (K) Level (optional)")
+                    Text(
+                        text = "Kalium (K) Level (optional)",
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.Light
+                    )
                 },
                 leadingIcon = {
                     Icon(painter = painterResource(R.drawable.ic_chemical), contentDescription = "")
@@ -244,7 +274,11 @@ fun AnalyzeEnvironmentScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Phosporus (P) Level (optional)")
+                    Text(
+                        text = "Phosporus (P) Level (optional)",
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.Light
+                    )
                 },
                 leadingIcon = {
                     Icon(painter = painterResource(R.drawable.ic_chemical), contentDescription = "")
@@ -300,7 +334,7 @@ fun AnalyzeEnvironmentScreen(
                 .fillMaxWidth()
                 .sizeIn(minHeight = 54.dp)
         ) {
-            Text(text = "Find plant!")
+            Text(text = "Find plant!", fontFamily = Poppins, fontWeight = FontWeight.Light)
         }
     }
 }

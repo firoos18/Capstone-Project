@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -39,7 +40,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.TemanTanamTheme
+import com.example.temantanam.R
 import com.example.temantanam.ui.component.LoadingDialog
+import com.example.temantanam.ui.theme.Poppins
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -70,9 +73,10 @@ fun LoginScreen(
         Text(
             text = "Login",
             fontWeight = FontWeight.Bold,
-            fontSize = 28.sp
+            fontSize = 28.sp,
+            fontFamily = Poppins
         )
-        Spacer(modifier = Modifier.size(230.dp))
+        Spacer(modifier = Modifier.size(175.dp))
         Column(
             horizontalAlignment = Alignment.End
         ) {
@@ -89,7 +93,10 @@ fun LoginScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Email")
+                    Text(text = "Email", fontFamily = Poppins, fontWeight = FontWeight.Light)
+                },
+                leadingIcon = {
+                    Icon(painterResource(id = R.drawable.ic_email), contentDescription = "Email Icon", modifier = Modifier.size(24.dp))
                 }
             )
             Spacer(modifier = Modifier.size(24.dp))
@@ -106,7 +113,7 @@ fun LoginScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Password")
+                    Text(text = "Password", fontFamily = Poppins, fontWeight = FontWeight.Light)
                 },
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -122,6 +129,9 @@ fun LoginScreen(
                     IconButton(onClick = {passwordVisible = !passwordVisible}) {
                         Icon(image, description)
                     }
+                },
+                leadingIcon = {
+                    Icon(painterResource(id = R.drawable.ic_password), contentDescription = "Password Icon", modifier = Modifier.size(24.dp))
                 }
             )
         }
@@ -141,19 +151,21 @@ fun LoginScreen(
                 .fillMaxWidth()
                 .sizeIn(minHeight = 54.dp)
         ) {
-            Text(text = "Login")
+            Text(text = "Login", fontFamily = Poppins)
         }
         Spacer(modifier = Modifier.size(64.dp))
         Row {
             Text(
                 text = "Don’t have an account?",
                 fontSize = 12.sp,
-                fontWeight = FontWeight.Normal
+                fontWeight = FontWeight.Light,
+                fontFamily = Poppins
             )
             Text(
                 text = " Register",
                 fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
+                fontFamily = Poppins,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier.clickable {
                     navController.navigate("register") {
                         popUpTo(navController.graph.findStartDestination().id) {

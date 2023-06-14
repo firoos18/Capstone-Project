@@ -32,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -44,7 +45,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.TemanTanamTheme
+import com.example.temantanam.R
 import com.example.temantanam.ui.component.LoadingDialog
+import com.example.temantanam.ui.theme.Poppins
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
@@ -85,9 +88,10 @@ fun RegisterScreen(
         Text(
             text = "Register",
             fontWeight = FontWeight.Bold,
-            fontSize = 28.sp
+            fontSize = 28.sp,
+            fontFamily = Poppins
         )
-        Spacer(modifier = Modifier.size(230.dp))
+        Spacer(modifier = Modifier.size(175.dp))
         Column(
             horizontalAlignment = Alignment.End
         ) {
@@ -104,7 +108,10 @@ fun RegisterScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Email")
+                    Text(text = "Email", fontFamily = Poppins, fontWeight = FontWeight.Light)
+                },
+                leadingIcon = {
+                    Icon(painterResource(id = R.drawable.ic_email), contentDescription = "Email Icon", modifier = Modifier.size(24.dp))
                 }
             )
             Spacer(modifier = Modifier.size(24.dp))
@@ -121,7 +128,10 @@ fun RegisterScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Username")
+                    Text(text = "Username", fontFamily = Poppins, fontWeight = FontWeight.Light)
+                },
+                leadingIcon = {
+                    Icon(painterResource(id = R.drawable.ic_username), contentDescription = "Username Icon", modifier = Modifier.size(24.dp))
                 }
             )
             Spacer(modifier = Modifier.size(24.dp))
@@ -140,7 +150,7 @@ fun RegisterScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Password")
+                    Text(text = "Password", fontFamily = Poppins, fontWeight = FontWeight.Light)
                 },
                 trailingIcon = {
                     val image = if (passwordVisible)
@@ -154,6 +164,9 @@ fun RegisterScreen(
                     IconButton(onClick = {passwordVisible = !passwordVisible}) {
                         Icon(image, description)
                     }
+                },
+                leadingIcon = {
+                    Icon(painterResource(id = R.drawable.ic_password), contentDescription = "Password Icon", modifier = Modifier.size(24.dp))
                 }
             )
             Spacer(modifier = Modifier.size(24.dp))
@@ -175,7 +188,7 @@ fun RegisterScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 placeholder = {
-                    Text(text = "Re - Password")
+                    Text(text = "Re - Password", fontFamily = Poppins, fontWeight = FontWeight.Light)
                 },
                 isError = isError,
                 supportingText = {
@@ -183,7 +196,8 @@ fun RegisterScreen(
                         Text(
                             modifier = Modifier.fillMaxWidth(),
                             text = "Password is not the same",
-                            color = MaterialTheme.colorScheme.error
+                            color = MaterialTheme.colorScheme.error,
+                            fontFamily = Poppins
                         )
                     }
                 },
@@ -199,6 +213,9 @@ fun RegisterScreen(
                     IconButton(onClick = {rePasswordVisible = !rePasswordVisible}) {
                         Icon(image, description)
                     }
+                },
+                leadingIcon = {
+                    Icon(painterResource(id = R.drawable.ic_password), contentDescription = "Password Icon", modifier = Modifier.size(24.dp))
                 }
             )
         }
@@ -224,19 +241,21 @@ fun RegisterScreen(
                 .fillMaxWidth()
                 .sizeIn(minHeight = 54.dp)
         ) {
-            Text(text = "Register")
+            Text(text = "Register", fontFamily = Poppins)
         }
         Spacer(modifier = Modifier.size(64.dp))
         Row {
             Text(
                 text = "Already have an account?",
                 fontSize = 12.sp,
-                fontWeight = FontWeight.Normal
+                fontWeight = FontWeight.Light,
+                fontFamily = Poppins
             )
             Text(
                 text = " Login",
                 fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
+                fontFamily = Poppins,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier.clickable {
                     navController.navigate("login") {
                         popUpTo(navController.graph.findStartDestination().id) {

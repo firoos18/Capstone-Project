@@ -33,6 +33,7 @@ import com.example.temantanam.model.AnalyzeEnvironmentModel
 import com.example.temantanam.model.AnalyzeEnvironmentResponse
 import com.example.temantanam.model.PlantInfoModel
 import com.example.temantanam.ui.component.PlantInfo
+import com.example.temantanam.ui.theme.Poppins
 
 @Composable
 fun PlantDetails() {
@@ -57,14 +58,16 @@ fun PlantDetails() {
                     text = MainActivity.RESPONSERESULT.value.plant,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontFamily = Poppins
                 )
                 Text(
                     text = MainActivity.RESPONSERESULT.value.scientificName,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Light,
                     fontStyle = FontStyle.Italic,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontFamily = Poppins
                 )
             }
 
@@ -77,14 +80,16 @@ fun PlantDetails() {
                     text = "Description",
                     fontWeight = FontWeight.Medium,
                     fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontFamily = Poppins
                 )
                 Text(
                     text = MainActivity.RESPONSERESULT.value.description,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Light,
                     textAlign = TextAlign.Justify,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontFamily = Poppins
                 )
             }
 
