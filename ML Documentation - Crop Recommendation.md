@@ -19,6 +19,7 @@ print(classification_report(y_test,PVRF))
 ```
 
 ![alt text](https://github.com/firoos18/Capstone-Project/blob/master/Output%20Model/classification%20metrics.png?raw=true)
+
 Random Forest give an accuracy about 0.99 or 99% for the test set. So, the Random Forest algorithm can give crop recommendation accurately according to the content of soil and weather parameters.
 
 ### Prediction
