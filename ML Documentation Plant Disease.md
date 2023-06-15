@@ -1,7 +1,12 @@
-# Capstone-Project
+# Plant Disease Detection
 
-Splitting Data
+## Project Description
+Plant disease detection feature built in for Rise Capstone Project. This feature uses a machine learning algorithm by building a Convolutional Neural Network model in a Tensorflow lite format for further deployment to Android Studio. This project was created by Priscilla Ardine Puspitasari and Muhammad Hafizh Rachman as part of the Bangkit Capstone Project, demonstrating their skills and knowledge gained throughout the program.
 
+## Features
+Plant detection and classification based on uploaded images.
+
+## Splitting Data
 With a total of 11.097 images of leaf, we split the data into 3 set, that are Training set with a proportion of 80%, Validation set with a proportion of 10%, and Test set with a proportion of 10%.
 ``` python
 train_dir = 'D:/Hafizh/Dataset/training'
@@ -14,12 +19,10 @@ num_classes = len(os.listdir(train_dir))
 print(num_classes)
 ```
 
-Input Data
-
+## Input Data
 Data in the form of images with 45 classes based on plant species and diseases
 
-Data Augmentation
-
+## Data Augmentation
 Preprocessing done by using ImageDataGenerator that were provided by Keras. Here, we doing some data augmentation. For training data, we doing some parameter to the dataset, meanwhile for the validation data and testing data we only doing rescale to the dataset.
 ``` python
 train_datagen = ImageDataGenerator(
@@ -56,8 +59,7 @@ test_data = test_datagen.flow_from_directory(
 )
 ```
 
-Build Model
-
+## Build Model
 We are doing transfer learning with MobileNet architecture with several additional layers and dense output with 45 classes and softmax activation. MobileNets is a Convolutional Neural Network (CNN) architecture that focus on optimizing latency but at the same time also yield small networks. 
 
 ``` python
@@ -90,8 +92,7 @@ history = model.fit(
 ```
 ![alt text](https://github.com/firoos18/Capstone-Project/blob/master/Output%20Model/acc.jpeg?raw=true)
 
-Model Evaluation
-
+## Model Evaluation
 To know the plot of accuracy and loss on training and validation data. The accuracy plot results are good because the graph shows an increase, 
 while the loss plot is also good because the graph shows a decrease
 
@@ -119,8 +120,7 @@ plt.show()
 ![alt text](https://github.com/firoos18/Capstone-Project/blob/master/Output%20Model/plot.PNG?raw=true)
 
 
-Evaluate Test Data
-
+## Evaluate Test Data
 Evaluate testing data based on accuracy and loss values ​​and the results are quite good.
 
 ``` python
@@ -130,8 +130,7 @@ print('Test Loss:', loss)
 ```
 ![alt text](https://github.com/firoos18/Capstone-Project/blob/master/Output%20Model/test%20acc.jpeg?raw=true)
 
-Prediction of Test Set
-
+## Prediction of Test Set
 Knowing the prediction results of plant species and diseases from testing data based on the model that has been built
 
 ``` python
@@ -156,7 +155,14 @@ else:
 ```
 ![alt text](https://github.com/firoos18/Capstone-Project/blob/master/Output%20Model/predict.jpeg?raw=true)
 
-Convert Model to Tflite Format
-
+## Convert Model to Tflite Format
 Models that have good accuracy can be used to classify healthy and diseased plant species based on plant leaves. After the prediction value is already good, then 
 deployment will be carried out on Android by converting the file to the Tensorflow lite format. The Tensorflow lite format contains defined models in h5 file format
+
+## Contact
+For any inquiries or further information, please contact the project developers:
+
+- Priscilla Ardine Puspitasari: [Email](mailto:priscillaardine9784@gmail.com)
+- Muhammad Hafizh Rachman: [Email](m.hafizh272@gmail.com)
+
+Model in Tflite : [Tensorflow Lite File](https://drive.google.com/drive/folders/1-laQf4w3eVFWU9j8G4XJfQXZzqyPJUna?usp=sharing)
