@@ -35,4 +35,12 @@ The model giving a recommendation of coconut crop.
 
 ### Convert
 After choosing this Random Forest algorithm, the model will be converted to Pickle format. Then, the model will be updated by API and deployment will carried out on Android.
-Pickle File : [Random_Forest_Pickle](https://drive.google.com/file/d/1-vRWTl83uo7ckbBjKQMPPANfZPjLVlSl/view?usp=sharing)
+
+### Contact
+For any inquiries or further information, please contact the project developers:
+
+- Priscilla Ardine Puspitasari: [Email](mailto:priscillaardine9784@gmail.com)
+- Muhammad Hafizh Rachman: [Email](m.hafizh272@gmail.com)
+- Qanita Zafa Ariska: [Email](qanitazafa@gmail.com)
+
+Model in Pickle : [Random_Forest_Pickle](https://drive.google.com/file/d/1-vRWTl83uo7ckbBjKQMPPANfZPjLVlSl/view?usp=sharing)
