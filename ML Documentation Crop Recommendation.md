@@ -43,4 +43,4 @@ For any inquiries or further information, please contact the project developers:
 - Muhammad Hafizh Rachman: [Email](m.hafizh272@gmail.com)
 - Qanita Zafa Ariska: [Email](qanitazafa@gmail.com)
 
-Model in Pickle : [Random_Forest_Pickle](https://drive.google.com/file/d/1-vRWTl83uo7ckbBjKQMPPANfZPjLVlSl/view?usp=sharing)
+Model in Pickle : [Pickle File](https://drive.google.com/file/d/1-vRWTl83uo7ckbBjKQMPPANfZPjLVlSl/view?usp=sharing)
