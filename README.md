@@ -8,7 +8,6 @@
 <div align="center">
 
   [![Status](https://img.shields.io/badge/status-active-success.svg)]() 
-  [![GitHub Issues](https://img.shields.io/github/issues/kylelobo/The-Documentation-Compendium.svg)](https://github.com/kylelobo/The-Documentation-Compendium/issues)
   [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/kylelobo/The-Documentation-Compendium/pulls)
   [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 
@@ -19,7 +18,9 @@
 <p align="center"> Teman Tanam is a Bangkit Capstone Project which the team C23-PS029 made. 
   There's three main part of this project which is the Mobile Development part, Machine Learning part, and 
   Cloud Computing part according to the Bangkit Learning path. This repository only covers the Mobile Development part of the application.
-  For more information about the other part, please visit 
+  For more information about the other part, please visit repository below<br>
+  <a href = "https://github.com/priscillardine04/ML-Capstone-Project"> Machine Learning Repository </a> <br>
+  <a href = "https://github.com/debbyfrandina/CC_Teman-Tanam"> Cloud Computing Repository </a>
     <br> 
 </p>
 
@@ -28,7 +29,6 @@
 - [Deployment](#deployment)
 - [Usage](#usage)
 - [Built Using](#built_using)
-- [TODO](../TODO.md)
 - [Contributing](../CONTRIBUTING.md)
 - [Authors](#authors)
 - [Acknowledgments](#acknowledgement)
